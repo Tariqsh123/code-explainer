@@ -568,26 +568,6 @@ function analyzeCode() {
   const output = document.getElementById("output");
   output.innerHTML = "🔍 Analyzing code — please wait...<br><br>";
 
-  let lang = document.getElementById("mode").value;
-
-  // 🔹 Auto detect improvement
-  if (lang === "auto") {
-    if (code.startsWith("<") && code.endsWith(">")) {
-      lang = "HTML";
-    } else {
-      const firstWord = code.split(" ")[0].toLowerCase();
-      if (htmlDict[firstWord]) lang = "HTML";
-      else lang = detectLanguage(code) || "Unknown";
-    }
-  }
-
-  let dict = {};
-  if (lang === "HTML") dict = htmlDict;
-  else if (lang === "CSS") dict = cssDict;
-  else if (lang === "JavaScript") dict = jsDict;
-
-  output.innerHTML += `✨ Detected Language: <b>${lang}</b><br><br>`;
-
   const lines = code.split("\n");
   if (!lines.length) {
     output.innerHTML += "No code provided.";
@@ -600,23 +580,31 @@ function analyzeCode() {
 
     let explanation = null;
 
-    if (lang === "HTML") {
-      // ✅ Extract the tag name safely (handles attributes, self-closing, closing tags)
-      const tagMatch = trimmed.match(/^<\s*\/?\s*([a-zA-Z0-9]+)/);
-      const tagName = tagMatch ? tagMatch[1].toLowerCase() : null;
+    // ✅ Try HTML: detect <tag> or just tag name
+    const htmlTagMatch = trimmed.match(/^<\s*\/?\s*([a-zA-Z0-9-]+)/);
+    const htmlTag = htmlTagMatch ? htmlTagMatch[1].toLowerCase() : trimmed.split(" ")[0].toLowerCase();
+    if (htmlDict[htmlTag]) {
+      explanation = htmlDict[htmlTag];
+    }
 
-      explanation = tagName && dict[tagName]
-        ? dict[tagName]
-        : "Ye HTML element hai, lekin dictionary me explanation nahi hai.";
-    } else {
-      for (const key in dict) {
+    // ✅ Try CSS property (like color: #0ea5e9;)
+    if (!explanation) {
+      const cssPropMatch = trimmed.split(":")[0].trim();
+      if (cssProperties[cssPropMatch]) explanation = cssProperties[cssPropMatch];
+    }
+
+    // ✅ Try JS keywords
+    if (!explanation) {
+      for (const key in jsDict) {
         if (trimmed.includes(key)) {
-          explanation = dict[key];
+          explanation = jsDict[key];
           break;
         }
       }
-      if (!explanation) explanation = "Is line ke liye specific explanation nahi mila.";
     }
+
+    // ✅ If nothing matches
+    if (!explanation) explanation = "Is line ke liye specific explanation nahi mila.";
 
     const p = document.createElement("p");
     p.className = "ai-line";
@@ -645,6 +633,10 @@ function loadExample() {
 // ✅ Open Sheet.html in new tab
 function openSheet() {
   window.open('Sheet.html', '_blank');
+}
+function clearAll() {
+  // Page ko reload karega
+  location.reload();
 }
   </script>
 </body>
