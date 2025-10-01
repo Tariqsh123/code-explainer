@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Muhammad Tariq Code Explainer</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: #e2e8f0;
+      font-family: "Segoe UI", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+      min-height: 100vh;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 0.3rem;
+      color: #38bdf8;
+      text-align: center;
+    }
+    p.subtitle {
+      margin-bottom: 2rem;
+      color: #94a3b8;
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    /* Controls */
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-bottom: 2rem;
+    }
+
+    button, select {
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    button {
+      background: #38bdf8;
+      color: #0f172a;
+    }
+    button:hover {
+      background: #0ea5e9;
+      transform: translateY(-2px);
+    }
+
+    select {
+      background: #1e293b;
+      color: #e2e8f0;
+    }
+
+    /* Layout */
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      min-height: 450px;
+    }
+
+    .card h3 {
+      margin-bottom: 0.8rem;
+      font-size: 1.2rem;
+      color: #38bdf8;
+    }
+
+    textarea {
+      flex: 1;
+      width: 100%;
+      padding: 1rem;
+      font-size: 14px;
+      font-family: monospace;
+      background: #0f172a;
+      color: #f8fafc;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      resize: none;
+    }
+
+    .output {
+      flex: 1;
+      font-size: 14px;
+      line-height: 1.6;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      padding: 0.8rem;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      background: #0f172a;
+      font-family: "Segoe UI", sans-serif; /* ✅ Same font for explanation */
+    }
+
+    .ai-line {
+      margin-bottom: 0.8rem;
+      padding: 0.6rem 0.8rem;
+      border-left: 3px solid #38bdf8;
+      background: rgba(56,189,248,0.08);
+      border-radius: 4px;
+    }
+
+    /* ✅ Make inline code bold but not different font */
+    .ai-line code {
+      font-family: "Segoe UI", sans-serif;
+      font-weight: 600;
+      color: #f1f5f9;
+    }
+
+    /* Responsive */
+    @media(max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media(max-width: 500px) {
+      h1 { font-size: 1.8rem; }
+      p.subtitle { font-size: 0.9rem; }
+      button, select { flex: 1; font-size: 0.85rem; }
+      .card { min-height: auto; }
+      textarea, .output { height: 250px; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Muhammad Tariq Code Explainer</h1>
+  <p class="subtitle">Paste HTML, CSS or JavaScript — get clear line-by-line explanations with a professional UI.</p>
+
+  <!-- Controls -->
+<div class="controls">
+  <button onclick="analyzeCode()">Explain</button>
+  <button onclick="clearAll()">Clear</button>
+  <button onclick="copyOutput()">Copy</button>
+  <button onclick="loadExample()">Load Example</button>
+  <button onclick="openSheet()">Open Sheet</button> <!-- New Button -->
+  <select id="mode">
+    <option value="auto">Auto Detect</option>
+    <option value="HTML">HTML</option>
+    <option value="CSS">CSS</option>
+    <option value="JavaScript">JavaScript</option>
+  </select>
+</div>
+
+
+  <!-- Main Layout -->
+  <div class="container">
+    <div class="card">
+      <h3>Editor</h3>
+      <textarea id="codeInput" placeholder="Write or paste your code here..."></textarea>
+    </div>
+
+    <div class="card">
+      <h3>Explanation</h3>
+      <div id="output" class="output">Status: Idle. Paste code and click Explain.</div>
+    </div>
+  </div>
+
+  <script>
+    // Dictionaries
+    const htmlDict = {
+  "<!DOCTYPE html>": "Ye browser ko batata hai ke ye HTML5 document hai.",
+
+  // Basic Structure
+  "html": "Poore page ka main container.",
+  "head": "Page ki hidden info (title, CSS, scripts).",
+  "title": "Page ka naam jo browser tab me dikhta hai.",
+  "body": "Page ka asli content jo user ko dikhega.",
+
+  // Metadata
+  "meta": "Hidden info jaise charset, keywords, viewport.",
+  "link": "CSS file ya icons link karne ke liye.",
+  "style": "CSS likhne ke liye (andar hi).",
+  "script": "JavaScript likhne ya add karne ke liye.",
+  "noscript": "Message dikhane ke liye agar JS off ho.",
+  "base": "Page ke sab links ke liye base URL set karta hai.",
+
+  // Text / Content
+  "h1": "Sabse bada heading (title).",
+  "h2": "Heading level 2 (thoda chhota).",
+  "h3": "Heading level 3.",
+  "h4": "Heading level 4.",
+  "h5": "Heading level 5.",
+  "h6": "Sabse chhoti heading.",
+  "p": "Normal paragraph likhne ke liye.",
+  "br": "Line todne ke liye (next line).",
+  "hr": "Page me horizontal line kheenchne ke liye.",
+  "pre": "Text ko jaisa likha hai waisa hi dikhata hai (spaces, lines).",
+  "blockquote": "Bade quotation (quote) dikhane ke liye.",
+  "q": "Chhota quotation dikhane ke liye.",
+  "abbr": "Short form dikhane ke liye (tooltip milta hai).",
+  "cite": "Kisi source ka naam ya reference.",
+  "code": "Computer code dikhane ke liye.",
+  "kbd": "Keyboard input dikhane ke liye (jaise Ctrl+C).",
+  "samp": "Computer ka output dikhata hai.",
+  "var": "Variable ya math formula ka naam.",
+  "b": "Bold text (sirf style).",
+  "strong": "Important text (bold bhi).",
+  "i": "Italic text (sirf style).",
+  "em": "Emphasized text (italic bhi).",
+  "mark": "Text ko highlight karne ke liye.",
+  "small": "Chhota text banane ke liye.",
+  "del": "Delete ya cut hua text (line kheecha hoga).",
+  "ins": "Naya add hua text (underline).",
+  "sub": "Neeche wala chhota text (H₂O).",
+  "sup": "Upar wala chhota text (x²).",
+  "span": "Inline container (sirf styling ke liye).",
+
+  // Links & Navigation
+  "a": "Dusre page ya link ke liye.",
+  "nav": "Navigation menu (links ka group).",
+
+  // Lists
+  "ul": "Bullet points list (unordered).",
+  "ol": "Number wali list (ordered).",
+  "li": "List ke item.",
+  "dl": "Description list (jaise glossary).",
+  "dt": "Term ya word.",
+  "dd": "Us word ki explanation.",
+
+  // Media
+  "img": "Image dikhane ke liye.",
+  "audio": "Audio player lagane ke liye.",
+  "video": "Video player lagane ke liye.",
+  "source": "Audio/video ki file source.",
+  "track": "Subtitles ya captions video ke liye.",
+  "picture": "Alag-alag size ki image dikhane ke liye.",
+  "map": "Image ke andar clickable map.",
+  "area": "Image ke andar clickable area.",
+  "canvas": "Drawing ya graphics JS se banane ke liye.",
+  "svg": "Vector graphics banane ke liye.",
+  "iframe": "Dusra page embed karne ke liye.",
+  "embed": "External cheez (PDF, video) embed karne ke liye.",
+  "object": "External file embed karne ke liye (old).",
+  "param": "Object ke liye setting define karne ke liye.",
+
+  // Forms
+  "form": "Form banane ke liye (inputs ke liye).",
+  "input": "Text box, checkbox, etc. ke liye.",
+  "textarea": "Bada text box.",
+  "button": "Button banane ke liye.",
+  "select": "Dropdown menu.",
+  "option": "Dropdown ka option.",
+  "optgroup": "Dropdown me group banane ke liye.",
+  "label": "Input ke liye label (naam).",
+  "fieldset": "Form ke inputs ko group karne ke liye.",
+  "legend": "Fieldset ka title.",
+  "datalist": "Input ke suggestions dene ke liye.",
+  "output": "Form ka result dikhane ke liye.",
+  "progress": "Progress bar.",
+  "meter": "Measurement bar (jaise battery level).",
+
+  // Tables
+  "table": "Table banane ke liye.",
+  "tr": "Table row.",
+  "td": "Table cell (data).",
+  "th": "Table header cell.",
+  "thead": "Table ka header part.",
+  "tbody": "Table ka main body part.",
+  "tfoot": "Table ka footer part.",
+  "caption": "Table ka title.",
+  "col": "Table column ke style ke liye.",
+  "colgroup": "Columns ka group banane ke liye.",
+
+  // Semantic Layout
+  "header": "Page ka top section.",
+  "footer": "Page ka bottom section.",
+  "main": "Page ka main content.",
+  "section": "Page ka ek section.",
+  "article": "Independent content (blog post).",
+  "aside": "Side ka content (sidebar, ads).",
+  "address": "Address ya contact info.",
+  "div": "Content ka container (block).",
+
+  // Interactive
+  "details": "Extra info jo open/close ho sakti hai.",
+  "summary": "Details ka title.",
+  "dialog": "Popup box ya modal.",
+  "template": "Hidden content jo later use hoga.",
+  "slot": "Web components me placeholder.",
+
+  // Old & Deprecated (ab use nahi hote)
+  "font": "Text ka font set karta tha (ab CSS se karte hain).",
+  "center": "Content center me lata tha (ab CSS se karte hain).",
+  "big": "Text bada karta tha (ab CSS use karo).",
+  "marquee": "Scrolling text banata tha (fun tha, ab obsolete).",
+  "applet": "Java applets ke liye (ab band).",
+  "acronym": "Acronym ke liye (ab <abbr> use karo).",
+  "tt": "Teletype font dikhata tha (ab CSS use karo).",
+  "frameset": "Page ko frames me todta tha (ab nahi use hota).",
+  "frame": "Frameset ka ek frame (ab obsolete).",
+  "noframes": "Frames ko support na karne wale browsers ke liye.",
+  "bgsound": "Background me music bajata tha (sirf IE me).",
+  "blink": "Text blink karta tha (sirf purane Netscape me).",
+  "keygen": "Keys generate karne ke liye (ab remove ho gaya).",
+  "shadow": "Shadow DOM ke liye (ab remove ho gaya)."
+};
+
+
+    // CSS Properties Dictionary Generator
+// Ye code sabhi CSS properties ko ek dictionary me convert karega
+// Easy definitions ke sath (tum ise modify karke aur simple bana sakte ho)
+
+const cssProperties = {
+  "align-content": "Flex/Grid items ko cross-axis par align karta hai.",
+  "align-items": "Items ko vertical ya cross-axis me set karta hai.",
+  "align-self": "Ek single item ko align karta hai.",
+  "all": "Sabhi properties ko ek sath reset karta hai.",
+  "animation": "Animation ke liye shortcut property.",
+  "animation-delay": "Animation shuru hone se pehle ka wait time.",
+  "animation-direction": "Animation ka direction (normal, reverse).",
+  "animation-duration": "Animation kitne time chalegi.",
+  "animation-iteration-count": "Kitni baar animation repeat hogi.",
+  "animation-name": "Kaunsa animation chalega (keyframes ka naam).",
+  "animation-play-state": "Animation ko chalana ya rokna.",
+  "animation-timing-function": "Animation ka speed curve (ease, linear).",
+  "aspect-ratio": "Element ka width/height ratio fix karta hai.",
+  "backdrop-filter": "Background par blur ya effect lagata hai.",
+  "background": "Background color/image/gradient ke liye shortcut.",
+  "background-attachment": "Background image scroll hogi ya fix.",
+  "background-blend-mode": "Background layers ko kaise mix karna hai.",
+  "background-clip": "Background kis area me dikhega.",
+  "background-color": "Background ka rang.",
+  "background-image": "Background me image lagana.",
+  "background-origin": "Background image kis box se start hogi.",
+  "background-position": "Image ka position set karta hai.",
+  "background-repeat": "Image repeat hogi ya nahi.",
+  "background-size": "Image ka size fix karta hai.",
+  "border": "Border ke liye shortcut (width, style, color).",
+  "border-block": "Block direction border shortcut.",
+  "border-block-color": "Block border ka color.",
+  "border-block-style": "Block border ka style.",
+  "border-block-width": "Block border ki width.",
+  "border-bottom": "Bottom border shortcut.",
+  "border-collapse": "Table borders ko merge ya separate karta hai.",
+  "border-color": "Border ka rang.",
+  "border-image": "Border me image use karta hai.",
+  "border-inline": "Inline direction border shortcut.",
+  "border-left": "Left side border.",
+  "border-radius": "Box ke corner gol banata hai.",
+  "border-right": "Right side border.",
+  "border-spacing": "Table cell borders ka gap.",
+  "border-style": "Border ka style (solid, dashed, dotted).",
+  "border-top": "Top border shortcut.",
+  "border-width": "Border ki width.",
+  "bottom": "Element ki bottom position.",
+  "box-decoration-break": "Line break hone par border/padding kaise lagega.",
+  "box-shadow": "Shadow lagata hai.",
+  "box-sizing": "Element ke size calculation ka rule.",
+  "break-after": "Element ke baad page/column break ka control.",
+  "break-before": "Element ke pehle page/column break ka control.",
+  "break-inside": "Element ke andar break allow hai ya nahi.",
+  "caption-side": "Table caption ki position.",
+  "caret-color": "Text cursor (caret) ka color.",
+  "clear": "Float ko clear karta hai (left, right, both).",
+  "clip": "Element ko cut karta hai (deprecated).",
+  "clip-path": "Custom shape cropping karta hai.",
+  "color": "Text ka rang.",
+  "column-count": "Columns ki ginti set karta hai.",
+  "column-fill": "Column fill kaise hoga.",
+  "column-gap": "Columns ke beech ka gap.",
+  "column-rule": "Columns ke beech line ka style.",
+  "column-span": "Element multiple columns me spread kare.",
+  "column-width": "Column ki min width.",
+  "columns": "Column count aur width shortcut.",
+  "content": "Pseudo elements (::before, ::after) ke liye content.",
+  "counter-increment": "Counter ko increase karta hai.",
+  "counter-reset": "Counter ko reset karta hai.",
+  "cursor": "Mouse cursor ka style.",
+  "direction": "Text direction (ltr, rtl).",
+  "display": "Element ka display style (block, flex, grid).",
+  "empty-cells": "Table cells jisme content nahi hai unka display.",
+  "filter": "Visual effects (blur, brightness, contrast).",
+  "flex": "Flex items ka shortcut (grow, shrink, basis).",
+  "flex-basis": "Flex item ka base size.",
+  "flex-direction": "Row ya column layout decide karta hai.",
+  "flex-grow": "Item ko kitna bada hona hai.",
+  "flex-shrink": "Item ko kitna chhota hona hai.",
+  "flex-wrap": "Items wrap karen ya ek line me rahen.",
+  "float": "Element ko left/right float karta hai.",
+  "font": "Font ke liye shortcut property.",
+  "font-family": "Text ke liye font ka naam.",
+  "font-size": "Text ka size.",
+  "font-style": "Italic, normal, etc.",
+  "font-variant": "Small-caps, etc.",
+  "font-weight": "Boldness of text.",
+  "gap": "Flex/Grid items ke beech gap.",
+  "grid": "Grid layout ke liye shortcut.",
+  "grid-area": "Grid item ki jagah specify karta hai.",
+  "grid-auto-columns": "Automatic columns ka size.",
+  "grid-auto-flow": "Grid auto placement ka rule.",
+  "grid-auto-rows": "Automatic rows ka size.",
+  "grid-column": "Grid item ke liye column span.",
+  "grid-gap": "Grid rows aur columns ka gap.",
+  "grid-row": "Grid item ke liye row span.",
+  "grid-template": "Grid rows, columns aur areas ka shortcut.",
+  "height": "Element ki height.",
+  "hyphens": "Text me hyphen allow kare ya nahi.",
+  "isolation": "Stacking context create karta hai.",
+  "justify-content": "Flex/Grid items ko main-axis par align karta hai.",
+  "left": "Element ki left position.",
+  "letter-spacing": "Letters ke beech gap.",
+  "line-height": "Line ka height/spacing.",
+  "list-style": "List bullets ke liye shortcut.",
+  "margin": "Element ke bahar ka gap.",
+  "max-height": "Maximum height limit.",
+  "max-width": "Maximum width limit.",
+  "min-height": "Minimum height limit.",
+  "min-width": "Minimum width limit.",
+  "object-fit": "Image/video fit rule (cover, contain).",
+  "opacity": "Transparency level.",
+  "order": "Flex items ka order.",
+  "outline": "Element ka border jaisa highlight.",
+  "overflow": "Content bahar nikle to kaise handle kare.",
+  "padding": "Element ke andar ka gap.",
+  "perspective": "3D elements ka depth effect.",
+  "position": "Static, relative, absolute, fixed, sticky.",
+  "resize": "Element resize karne ki permission.",
+  "right": "Element ki right position.",
+  "scroll-behavior": "Smooth scrolling ya instant.",
+  "text-align": "Text alignment (left, right, center).",
+  "text-decoration": "Underline, overline, etc.",
+  "text-overflow": "Text overflow ka rule (ellipsis).",
+  "top": "Element ki top position.",
+  "transform": "Rotate, scale, skew.",
+  "transition": "Smooth change ka shortcut.",
+  "user-select": "Text selectable hai ya nahi.",
+  "vertical-align": "Inline elements ka vertical alignment.",
+  "visibility": "Element visible hai ya hidden.",
+  "white-space": "Text wrapping ka rule.",
+  "width": "Element ki width.",
+  "word-break": "Words break karen ya wrap.",
+  "z-index": "Stack order (front/back)."
+};
+
+
+
+const jsDict = {
+  // Variables
+  "let": "Variable declare karta hai (block ke andar valid).",
+  "const": "Constant variable declare karta hai (change nahi hota).",
+  "var": "Variable declare karta hai (function ke andar valid).",
+
+  // Functions
+  "function": "Reusable code ka block banata hai.",
+  "return": "Function se value bahar bhejne ke liye.",
+  "arrow function (=>)": "Short syntax function ke liye, jaise: const f = () => {}",
+
+  // Loops
+  "for": "Loop jo pehle se fix number of times chalega.",
+  "while": "Loop jo tab tak chale jab condition true ho.",
+  "do...while": "Loop jo pehle ek baar chale fir condition check kare.",
+
+  // Conditional
+  "if": "Condition check karta hai agar true ho to code chale.",
+  "else": "Agar if false ho to ye code chale.",
+  "else if": "Extra condition check karne ke liye.",
+  "switch": "Multiple options me se ek choose karne ke liye.",
+  "case": "Switch ke andar option define karta hai.",
+  "break": "Loop ya switch se bahar nikalne ke liye.",
+  "default": "Switch me default option agar match na ho to.",
+
+  // Objects & Arrays
+  "object": "Data store karne ka collection (key-value pairs).",
+  "{}": "Object literal banane ke liye.",
+  "array": "Multiple values ek saath store karne ke liye.",
+  "[]": "Array literal banane ke liye.",
+  ".push()": "Array me naya item add karne ke liye.",
+  ".pop()": "Array ka last item remove karne ke liye.",
+  ".shift()": "Array ka first item remove karne ke liye.",
+  ".unshift()": "Array ke start me naya item add karne ke liye.",
+  ".length": "Array ya string me items ki ginti batata hai.",
+  ".indexOf()": "Value ka index batata hai array me ya -1 agar nahi mile.",
+
+  // Strings
+  "string": "Text store karne ke liye.",
+  ".toUpperCase()": "Text ko capital letters me convert karta hai.",
+  ".toLowerCase()": "Text ko small letters me convert karta hai.",
+  ".slice()": "Text ka part nikalta hai.",
+  ".replace()": "Text me value replace karta hai.",
+  ".includes()": "Check karta hai agar text me value hai ya nahi.",
+
+  // DOM (Document Object Model)
+  "document.getElementById()": "ID se element select karne ke liye.",
+  "document.querySelector()": "CSS selector se element select karta hai.",
+  "document.querySelectorAll()": "CSS selector se saare matching elements select karta hai.",
+  ".innerHTML": "Element ke andar ka HTML set ya get karta hai.",
+  ".textContent": "Element ke andar ka text set ya get karta hai.",
+  ".style": "Element ke CSS properties change karne ke liye.",
+  ".addEventListener()": "Element par event listener lagane ke liye, jaise click.",
+
+  // Operators
+  "+": "Addition ya text ko join karta hai (concatenate).",
+  "-": "Subtraction ke liye.",
+  "*": "Multiplication ke liye.",
+  "/": "Division ke liye.",
+  "%": "Remainder (modulo) ke liye.",
+  "==": "Equality check karta hai (value compare).",
+  "===": "Strict equality (value aur type dono check).",
+  "!=": "Not equal (value).",
+  "!==": "Strict not equal (value aur type).",
+  ">": "Greater than.",
+  "<": "Less than.",
+  ">=": "Greater than or equal.",
+  "<=": "Less than or equal.",
+  "&&": "Logical AND (dono conditions true honi chahiye).",
+  "||": "Logical OR (koi ek true ho jaye to).",
+  "!": "NOT operator, opposite banata hai.",
+
+  // Misc
+  "console.log()": "Browser console me message print karta hai.",
+  "alert()": "Popup message dikhata hai.",
+  "prompt()": "User se input lene ke liye popup.",
+  "parseInt()": "Text ko integer me convert karta hai.",
+  "parseFloat()": "Text ko decimal number me convert karta hai.",
+  "Math.round()": "Number ko nearest integer me round karta hai.",
+  "Math.floor()": "Number ko lower integer me round karta hai.",
+  "Math.ceil()": "Number ko higher integer me round karta hai.",
+  "Math.random()": "0 aur 1 ke beech random number deta hai.",
+  "typeof": "Variable ka type batata hai (string, number, object, etc.).",
+  "new": "Naya object ya instance banane ke liye.",
+  "this": "Current object ko refer karta hai.",
+  "null": "Kuch bhi value nahi hai.",
+  "undefined": "Variable declare hai lekin value nahi hai.",
+  "NaN": "Not a Number, jab number ka calculation fail ho."
+};
+
+// Detect language
+function detectLanguage(code) {
+  if (code.includes("<") && code.includes(">")) return "HTML";
+  if (code.includes("{") && code.includes("}")) return "CSS";
+  if (/(function|let|const|var)/.test(code)) return "JavaScript";
+  return "Unknown";
+}
+
+// Analyze code
+function analyzeCode() {
+  const code = document.getElementById("codeInput").value.trim();
+  const output = document.getElementById("output");
+  output.innerHTML = "🔍 Analyzing code — please wait...<br><br>";
+
+  let lang = document.getElementById("mode").value;
+
+  // 🔹 Auto detect improvement
+  if (lang === "auto") {
+    if (code.startsWith("<") && code.endsWith(">")) {
+      lang = "HTML";
+    } else {
+      const firstWord = code.split(" ")[0].toLowerCase();
+      if (htmlDict[firstWord]) lang = "HTML";
+      else lang = detectLanguage(code) || "Unknown";
+    }
+  }
+
+  let dict = {};
+  if (lang === "HTML") dict = htmlDict;
+  else if (lang === "CSS") dict = cssDict;
+  else if (lang === "JavaScript") dict = jsDict;
+
+  output.innerHTML += `✨ Detected Language: <b>${lang}</b><br><br>`;
+
+  const lines = code.split("\n");
+  if (!lines.length) {
+    output.innerHTML += "No code provided.";
+    return;
+  }
+
+  lines.forEach((line, i) => {
+    const trimmed = line.trim();
+    if (!trimmed) return;
+
+    let explanation = null;
+
+    if (lang === "HTML") {
+      // ✅ Extract the tag name safely (handles attributes, self-closing, closing tags)
+      const tagMatch = trimmed.match(/^<\s*\/?\s*([a-zA-Z0-9]+)/);
+      const tagName = tagMatch ? tagMatch[1].toLowerCase() : null;
+
+      explanation = tagName && dict[tagName]
+        ? dict[tagName]
+        : "Ye HTML element hai, lekin dictionary me explanation nahi hai.";
+    } else {
+      for (const key in dict) {
+        if (trimmed.includes(key)) {
+          explanation = dict[key];
+          break;
+        }
+      }
+      if (!explanation) explanation = "Is line ke liye specific explanation nahi mila.";
+    }
+
+    const p = document.createElement("p");
+    p.className = "ai-line";
+    p.textContent = `Line ${i + 1}: 👉 ${explanation}`;
+    output.appendChild(p);
+  });
+
+  output.innerHTML += "<br>✅ Analysis complete.";
+}
+
+
+// Copy output to clipboard
+function copyOutput() {
+  const text = document.getElementById("output").innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    alert("Explanation copied!");
+  });
+}
+
+// Load example code
+function loadExample() {
+  const example = `<h1>Hello World</h1>\n<p>This is a paragraph.</p>\n<a href="#">Click me</a>`;
+  document.getElementById("codeInput").value = example;
+}
+
+// ✅ Open Sheet.html in new tab
+function openSheet() {
+  window.open('Sheet.html', '_blank');
+}
+  </script>
+</body>
+</html>

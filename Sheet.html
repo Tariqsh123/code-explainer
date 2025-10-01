@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tariq's Web Sheet</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: #1e293b;
+      color: #f1f5f9;
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+      color: #38bdf8;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      padding: 0.6rem 1.2rem;
+      background: #0f172a;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .tab.active {
+      background: #38bdf8;
+      color: #0f172a;
+    }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+    }
+
+    th, td {
+      padding: 0.8rem 1rem;
+      border: 1px solid #334155;
+      text-align: left;
+    }
+
+    th {
+      background: #0f172a;
+      color: #38bdf8;
+    }
+
+    tr:nth-child(even) {
+      background: rgba(255,255,255,0.05);
+    }
+
+    /* Responsive */
+    @media(max-width: 768px) {
+      th, td {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+      }
+    }
+
+    @media(max-width: 500px) {
+      .tabs {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<h1>Code Reference Sheet</h1>
+
+<div class="tabs">
+  <div class="tab active" data-target="html">HTML</div>
+  <div class="tab" data-target="css">CSS</div>
+  <div class="tab" data-target="js">JavaScript</div>
+</div>
+
+<!-- HTML Table -->
+<div class="sheet" id="html">
+  <table>
+    <thead>
+      <tr>
+        <th>Tag / Element</th>
+        <th>Purpose (Easy Words)</th>
+      </tr>
+    </thead>
+    <tbody>
+  <!-- Loop through htmlDict keys -->
+  <tr><td>&lt;!DOCTYPE html&gt;</td><td>Ye browser ko batata hai ke ye HTML5 document hai.</td></tr>
+  <tr><td>&lt;html&gt;</td><td>Poore page ka main container.</td></tr>
+  <tr><td>&lt;head&gt;</td><td>Page ki hidden info (title, CSS, scripts).</td></tr>
+  <tr><td>&lt;title&gt;</td><td>Page ka naam jo browser tab me dikhta hai.</td></tr>
+  <tr><td>&lt;body&gt;</td><td>Page ka asli content jo user ko dikhega.</td></tr>
+  <tr><td>&lt;meta&gt;</td><td>Hidden info jaise charset, keywords, viewport.</td></tr>
+  <tr><td>&lt;link&gt;</td><td>CSS file ya icons link karne ke liye.</td></tr>
+  <tr><td>&lt;style&gt;</td><td>CSS likhne ke liye (andar hi).</td></tr>
+  <tr><td>&lt;script&gt;</td><td>JavaScript likhne ya add karne ke liye.</td></tr>
+  <tr><td>&lt;noscript&gt;</td><td>Message dikhane ke liye agar JS off ho.</td></tr>
+  <tr><td>&lt;base&gt;</td><td>Page ke sab links ke liye base URL set karta hai.</td></tr>
+  <tr><td>&lt;h1&gt; to &lt;h6&gt;</td><td>Heading levels (bada se chhota).</td></tr>
+  <tr><td>&lt;p&gt;</td><td>Normal paragraph likhne ke liye.</td></tr>
+  <tr><td>&lt;br&gt;</td><td>Line todne ke liye (next line).</td></tr>
+  <tr><td>&lt;hr&gt;</td><td>Page me horizontal line kheenchne ke liye.</td></tr>
+  <tr><td>&lt;pre&gt;</td><td>Text ko jaisa likha hai waisa hi dikhata hai (spaces, lines).</td></tr>
+  <tr><td>&lt;blockquote&gt;</td><td>Bade quotation (quote) dikhane ke liye.</td></tr>
+  <tr><td>&lt;q&gt;</td><td>Chhota quotation dikhane ke liye.</td></tr>
+  <tr><td>&lt;abbr&gt;</td><td>Short form dikhane ke liye (tooltip milta hai).</td></tr>
+  <tr><td>&lt;cite&gt;</td><td>Kisi source ka naam ya reference.</td></tr>
+  <tr><td>&lt;code&gt;</td><td>Computer code dikhane ke liye.</td></tr>
+  <tr><td>&lt;kbd&gt;</td><td>Keyboard input dikhane ke liye (jaise Ctrl+C).</td></tr>
+  <tr><td>&lt;samp&gt;</td><td>Computer ka output dikhata hai.</td></tr>
+  <tr><td>&lt;var&gt;</td><td>Variable ya math formula ka naam.</td></tr>
+  <tr><td>&lt;b&gt;</td><td>Bold text (sirf style).</td></tr>
+  <tr><td>&lt;strong&gt;</td><td>Important text (bold bhi).</td></tr>
+  <tr><td>&lt;i&gt;</td><td>Italic text (sirf style).</td></tr>
+  <tr><td>&lt;em&gt;</td><td>Emphasized text (italic bhi).</td></tr>
+  <tr><td>&lt;mark&gt;</td><td>Text ko highlight karne ke liye.</td></tr>
+  <tr><td>&lt;small&gt;</td><td>Chhota text banane ke liye.</td></tr>
+  <tr><td>&lt;del&gt;</td><td>Delete ya cut hua text (line kheecha hoga).</td></tr>
+  <tr><td>&lt;ins&gt;</td><td>Naya add hua text (underline).</td></tr>
+  <tr><td>&lt;sub&gt;</td><td>Neeche wala chhota text (H₂O).</td></tr>
+  <tr><td>&lt;sup&gt;</td><td>Upar wala chhota text (x²).</td></tr>
+  <tr><td>&lt;span&gt;</td><td>Inline container (sirf styling ke liye).</td></tr>
+  <tr><td>&lt;a&gt;</td><td>Dusre page ya link ke liye.</td></tr>
+  <tr><td>&lt;nav&gt;</td><td>Navigation menu (links ka group).</td></tr>
+  <tr><td>&lt;ul&gt;</td><td>Bullet points list (unordered).</td></tr>
+  <tr><td>&lt;ol&gt;</td><td>Number wali list (ordered).</td></tr>
+  <tr><td>&lt;li&gt;</td><td>List ke item.</td></tr>
+  <tr><td>&lt;dl&gt;</td><td>Description list (jaise glossary).</td></tr>
+  <tr><td>&lt;dt&gt;</td><td>Term ya word.</td></tr>
+  <tr><td>&lt;dd&gt;</td><td>Us word ki explanation.</td></tr>
+  <tr><td>&lt;img&gt;</td><td>Image dikhane ke liye.</td></tr>
+  <tr><td>&lt;audio&gt;</td><td>Audio player lagane ke liye.</td></tr>
+  <tr><td>&lt;video&gt;</td><td>Video player lagane ke liye.</td></tr>
+  <tr><td>&lt;source&gt;</td><td>Audio/video ki file source.</td></tr>
+  <tr><td>&lt;track&gt;</td><td>Subtitles ya captions video ke liye.</td></tr>
+  <tr><td>&lt;picture&gt;</td><td>Alag-alag size ki image dikhane ke liye.</td></tr>
+  <tr><td>&lt;map&gt;</td><td>Image ke andar clickable map.</td></tr>
+  <tr><td>&lt;area&gt;</td><td>Image ke andar clickable area.</td></tr>
+  <tr><td>&lt;canvas&gt;</td><td>Drawing ya graphics JS se banane ke liye.</td></tr>
+  <tr><td>&lt;svg&gt;</td><td>Vector graphics banane ke liye.</td></tr>
+  <tr><td>&lt;iframe&gt;</td><td>Dusra page embed karne ke liye.</td></tr>
+  <tr><td>&lt;embed&gt;</td><td>External cheez (PDF, video) embed karne ke liye.</td></tr>
+  <tr><td>&lt;object&gt;</td><td>External file embed karne ke liye (old).</td></tr>
+  <tr><td>&lt;param&gt;</td><td>Object ke liye setting define karne ke liye.</td></tr>
+  <tr><td>&lt;form&gt;</td><td>Form banane ke liye (inputs ke liye).</td></tr>
+  <tr><td>&lt;input&gt;</td><td>Text box, checkbox, etc. ke liye.</td></tr>
+  <tr><td>&lt;textarea&gt;</td><td>Bada text box.</td></tr>
+  <tr><td>&lt;button&gt;</td><td>Button banane ke liye.</td></tr>
+  <tr><td>&lt;select&gt;</td><td>Dropdown menu.</td></tr>
+  <tr><td>&lt;option&gt;</td><td>Dropdown ka option.</td></tr>
+  <tr><td>&lt;optgroup&gt;</td><td>Dropdown me group banane ke liye.</td></tr>
+  <tr><td>&lt;label&gt;</td><td>Input ke liye label (naam).</td></tr>
+  <tr><td>&lt;fieldset&gt;</td><td>Form ke inputs ko group karne ke liye.</td></tr>
+  <tr><td>&lt;legend&gt;</td><td>Fieldset ka title.</td></tr>
+  <tr><td>&lt;datalist&gt;</td><td>Input ke suggestions dene ke liye.</td></tr>
+  <tr><td>&lt;output&gt;</td><td>Form ka result dikhane ke liye.</td></tr>
+  <tr><td>&lt;progress&gt;</td><td>Progress bar.</td></tr>
+  <tr><td>&lt;meter&gt;</td><td>Measurement bar (jaise battery level).</td></tr>
+  <tr><td>&lt;table&gt;</td><td>Table banane ke liye.</td></tr>
+  <tr><td>&lt;tr&gt;</td><td>Table row.</td></tr>
+  <tr><td>&lt;td&gt;</td><td>Table cell (data).</td></tr>
+  <tr><td>&lt;th&gt;</td><td>Table header cell.</td></tr>
+  <tr><td>&lt;thead&gt;</td><td>Table ka header part.</td></tr>
+  <tr><td>&lt;tbody&gt;</td><td>Table ka main body part.</td></tr>
+  <tr><td>&lt;tfoot&gt;</td><td>Table ka footer part.</td></tr>
+  <tr><td>&lt;caption&gt;</td><td>Table ka title.</td></tr>
+  <tr><td>&lt;col&gt;</td><td>Table column ke style ke liye.</td></tr>
+  <tr><td>&lt;colgroup&gt;</td><td>Columns ka group banane ke liye.</td></tr>
+  <tr><td>&lt;header&gt;</td><td>Page ka top section.</td></tr>
+  <tr><td>&lt;footer&gt;</td><td>Page ka bottom section.</td></tr>
+  <tr><td>&lt;main&gt;</td><td>Page ka main content.</td></tr>
+  <tr><td>&lt;section&gt;</td><td>Page ka ek section.</td></tr>
+  <tr><td>&lt;article&gt;</td><td>Independent content (blog post).</td></tr>
+  <tr><td>&lt;aside&gt;</td><td>Side ka content (sidebar, ads).</td></tr>
+  <tr><td>&lt;address&gt;</td><td>Address ya contact info.</td></tr>
+  <tr><td>&lt;div&gt;</td><td>Content ka container (block).</td></tr>
+  <tr><td>&lt;details&gt;</td><td>Extra info jo open/close ho sakti hai.</td></tr>
+  <tr><td>&lt;summary&gt;</td><td>Details ka title.</td></tr>
+  <tr><td>&lt;dialog&gt;</td><td>Popup box ya modal.</td></tr>
+  <tr><td>&lt;template&gt;</td><td>Hidden content jo later use hoga.</td></tr>
+  <tr><td>&lt;slot&gt;</td><td>Web components me placeholder.</td></tr>
+  <tr><td>&lt;font&gt;</td><td>Text ka font set karta tha (ab CSS se karte hain).</td></tr>
+  <tr><td>&lt;center&gt;</td><td>Content center me lata tha (ab CSS se karte hain).</td></tr>
+  <tr><td>&lt;big&gt;</td><td>Text bada karta tha (ab CSS use karo).</td></tr>
+  <tr><td>&lt;marquee&gt;</td><td>Scrolling text banata tha (fun tha, ab obsolete).</td></tr>
+  <tr><td>&lt;applet&gt;</td><td>Java applets ke liye (ab band).</td></tr>
+  <tr><td>&lt;acronym&gt;</td><td>Acronym ke liye (ab &lt;abbr&gt; use karo).</td></tr>
+  <tr><td>&lt;tt&gt;</td><td>Teletype font dikhata tha (ab CSS use karo).</td></tr>
+  <tr><td>&lt;frameset&gt;</td><td>Page ko frames me todta tha (ab nahi use hota).</td></tr>
+  <tr><td>&lt;frame&gt;</td><td>Frameset ka ek frame (ab obsolete).</td></tr>
+  <tr><td>&lt;noframes&gt;</td><td>Frames ko support na karne wale browsers ke liye.</td></tr>
+  <tr><td>&lt;bgsound&gt;</td><td>Background me music bajata tha (sirf IE me).</td></tr>
+  <tr><td>&lt;blink&gt;</td><td>Text blink karta tha (sirf purane Netscape me).</td></tr>
+  <tr><td>&lt;keygen&gt;</td><td>Keys generate karne ke liye (ab remove ho gaya).</td></tr>
+  <tr><td>&lt;shadow&gt;</td><td>Shadow DOM ke liye (ab remove ho gaya).</td></tr>
+</tbody>
+
+  </table>
+</div>
+
+<!-- CSS Table -->
+<div class="sheet" id="css" style="display:none;">
+  <table>
+    <thead>
+      <tr>
+        <th>Property</th>
+        <th>Purpose (Easy Words)</th>
+      </tr>
+    </thead>
+<tbody>
+  <tr><td>align-content</td><td>Flex/Grid items ko cross-axis par align karta hai.</td></tr>
+  <tr><td>align-items</td><td>Items ko vertical ya cross-axis me set karta hai.</td></tr>
+  <tr><td>align-self</td><td>Ek single item ko align karta hai.</td></tr>
+  <tr><td>all</td><td>Sabhi properties ko ek sath reset karta hai.</td></tr>
+  <tr><td>animation</td><td>Animation ke liye shortcut property.</td></tr>
+  <tr><td>animation-delay</td><td>Animation shuru hone se pehle ka wait time.</td></tr>
+  <tr><td>animation-direction</td><td>Animation ka direction (normal, reverse).</td></tr>
+  <tr><td>animation-duration</td><td>Animation kitne time chalegi.</td></tr>
+  <tr><td>animation-iteration-count</td><td>Kitni baar animation repeat hogi.</td></tr>
+  <tr><td>animation-name</td><td>Kaunsa animation chalega (keyframes ka naam).</td></tr>
+  <tr><td>animation-play-state</td><td>Animation ko chalana ya rokna.</td></tr>
+  <tr><td>animation-timing-function</td><td>Animation ka speed curve (ease, linear).</td></tr>
+  <tr><td>aspect-ratio</td><td>Element ka width/height ratio fix karta hai.</td></tr>
+  <tr><td>backdrop-filter</td><td>Background par blur ya effect lagata hai.</td></tr>
+  <tr><td>background</td><td>Background color/image/gradient ke liye shortcut.</td></tr>
+  <tr><td>background-attachment</td><td>Background image scroll hogi ya fix.</td></tr>
+  <tr><td>background-blend-mode</td><td>Background layers ko kaise mix karna hai.</td></tr>
+  <tr><td>background-clip</td><td>Background kis area me dikhega.</td></tr>
+  <tr><td>background-color</td><td>Background ka rang.</td></tr>
+  <tr><td>background-image</td><td>Background me image lagana.</td></tr>
+  <tr><td>background-origin</td><td>Background image kis box se start hogi.</td></tr>
+  <tr><td>background-position</td><td>Image ka position set karta hai.</td></tr>
+  <tr><td>background-repeat</td><td>Image repeat hogi ya nahi.</td></tr>
+  <tr><td>background-size</td><td>Image ka size fix karta hai.</td></tr>
+  <tr><td>border</td><td>Border ke liye shortcut (width, style, color).</td></tr>
+  <tr><td>border-block</td><td>Block direction border shortcut.</td></tr>
+  <tr><td>border-block-color</td><td>Block border ka color.</td></tr>
+  <tr><td>border-block-style</td><td>Block border ka style.</td></tr>
+  <tr><td>border-block-width</td><td>Block border ki width.</td></tr>
+  <tr><td>border-bottom</td><td>Bottom border shortcut.</td></tr>
+  <tr><td>border-collapse</td><td>Table borders ko merge ya separate karta hai.</td></tr>
+  <tr><td>border-color</td><td>Border ka rang.</td></tr>
+  <tr><td>border-image</td><td>Border me image use karta hai.</td></tr>
+  <tr><td>border-inline</td><td>Inline direction border shortcut.</td></tr>
+  <tr><td>border-left</td><td>Left side border.</td></tr>
+  <tr><td>border-radius</td><td>Box ke corner gol banata hai.</td></tr>
+  <tr><td>border-right</td><td>Right side border.</td></tr>
+  <tr><td>border-spacing</td><td>Table cell borders ka gap.</td></tr>
+  <tr><td>border-style</td><td>Border ka style (solid, dashed, dotted).</td></tr>
+  <tr><td>border-top</td><td>Top border shortcut.</td></tr>
+  <tr><td>border-width</td><td>Border ki width.</td></tr>
+  <tr><td>bottom</td><td>Element ki bottom position.</td></tr>
+  <tr><td>box-decoration-break</td><td>Line break hone par border/padding kaise lagega.</td></tr>
+  <tr><td>box-shadow</td><td>Shadow lagata hai.</td></tr>
+  <tr><td>box-sizing</td><td>Element ke size calculation ka rule.</td></tr>
+  <tr><td>break-after</td><td>Element ke baad page/column break ka control.</td></tr>
+  <tr><td>break-before</td><td>Element ke pehle page/column break ka control.</td></tr>
+  <tr><td>break-inside</td><td>Element ke andar break allow hai ya nahi.</td></tr>
+  <tr><td>caption-side</td><td>Table caption ki position.</td></tr>
+  <tr><td>caret-color</td><td>Text cursor (caret) ka color.</td></tr>
+  <tr><td>clear</td><td>Float ko clear karta hai (left, right, both).</td></tr>
+  <tr><td>clip</td><td>Element ko cut karta hai (deprecated).</td></tr>
+  <tr><td>clip-path</td><td>Custom shape cropping karta hai.</td></tr>
+  <tr><td>color</td><td>Text ka rang.</td></tr>
+  <tr><td>column-count</td><td>Columns ki ginti set karta hai.</td></tr>
+  <tr><td>column-fill</td><td>Column fill kaise hoga.</td></tr>
+  <tr><td>column-gap</td><td>Columns ke beech ka gap.</td></tr>
+  <tr><td>column-rule</td><td>Columns ke beech line ka style.</td></tr>
+  <tr><td>column-span</td><td>Element multiple columns me spread kare.</td></tr>
+  <tr><td>column-width</td><td>Column ki min width.</td></tr>
+  <tr><td>columns</td><td>Column count aur width shortcut.</td></tr>
+  <tr><td>content</td><td>Pseudo elements (::before, ::after) ke liye content.</td></tr>
+  <tr><td>counter-increment</td><td>Counter ko increase karta hai.</td></tr>
+  <tr><td>counter-reset</td><td>Counter ko reset karta hai.</td></tr>
+  <tr><td>cursor</td><td>Mouse cursor ka style.</td></tr>
+  <tr><td>direction</td><td>Text direction (ltr, rtl).</td></tr>
+  <tr><td>display</td><td>Element ka display style (block, flex, grid).</td></tr>
+  <tr><td>empty-cells</td><td>Table cells jisme content nahi hai unka display.</td></tr>
+  <tr><td>filter</td><td>Visual effects (blur, brightness, contrast).</td></tr>
+  <tr><td>flex</td><td>Flex items ka shortcut (grow, shrink, basis).</td></tr>
+  <tr><td>flex-basis</td><td>Flex item ka base size.</td></tr>
+  <tr><td>flex-direction</td><td>Row ya column layout decide karta hai.</td></tr>
+  <tr><td>flex-grow</td><td>Item ko kitna bada hona hai.</td></tr>
+  <tr><td>flex-shrink</td><td>Item ko kitna chhota hona hai.</td></tr>
+  <tr><td>flex-wrap</td><td>Items wrap karen ya ek line me rahen.</td></tr>
+  <tr><td>float</td><td>Element ko left/right float karta hai.</td></tr>
+  <tr><td>font</td><td>Font ke liye shortcut property.</td></tr>
+  <tr><td>font-family</td><td>Text ke liye font ka naam.</td></tr>
+  <tr><td>font-size</td><td>Text ka size.</td></tr>
+  <tr><td>font-style</td><td>Italic, normal, etc.</td></tr>
+  <tr><td>font-variant</td><td>Small-caps, etc.</td></tr>
+  <tr><td>font-weight</td><td>Boldness of text.</td></tr>
+  <tr><td>gap</td><td>Flex/Grid items ke beech gap.</td></tr>
+  <tr><td>grid</td><td>Grid layout ke liye shortcut.</td></tr>
+  <tr><td>grid-area</td><td>Grid item ki jagah specify karta hai.</td></tr>
+  <tr><td>grid-auto-columns</td><td>Automatic columns ka size.</td></tr>
+  <tr><td>grid-auto-flow</td><td>Grid auto placement ka rule.</td></tr>
+  <tr><td>grid-auto-rows</td><td>Automatic rows ka size.</td></tr>
+  <tr><td>grid-column</td><td>Grid item ke liye column span.</td></tr>
+  <tr><td>grid-gap</td><td>Grid rows aur columns ka gap.</td></tr>
+  <tr><td>grid-row</td><td>Grid item ke liye row span.</td></tr>
+  <tr><td>grid-template</td><td>Grid rows, columns aur areas ka shortcut.</td></tr>
+  <tr><td>height</td><td>Element ki height.</td></tr>
+  <tr><td>hyphens</td><td>Text me hyphen allow kare ya nahi.</td></tr>
+  <tr><td>isolation</td><td>Stacking context create karta hai.</td></tr>
+  <tr><td>justify-content</td><td>Flex/Grid items ko main-axis par align karta hai.</td></tr>
+  <tr><td>left</td><td>Element ki left position.</td></tr>
+  <tr><td>letter-spacing</td><td>Letters ke beech gap.</td></tr>
+  <tr><td>line-height</td><td>Line ka height/spacing.</td></tr>
+  <tr><td>list-style</td><td>List bullets ke liye shortcut.</td></tr>
+  <tr><td>margin</td><td>Element ke bahar ka gap.</td></tr>
+  <tr><td>max-height</td><td>Maximum height limit.</td></tr>
+  <tr><td>max-width</td><td>Maximum width limit.</td></tr>
+  <tr><td>min-height</td><td>Minimum height limit.</td></tr>
+  <tr><td>min-width</td><td>Minimum width limit.</td></tr>
+  <tr><td>object-fit</td><td>Image/video fit rule (cover, contain).</td></tr>
+  <tr><td>opacity</td><td>Transparency level.</td></tr>
+  <tr><td>order</td><td>Flex items ka order.</td></tr>
+  <tr><td>outline</td><td>Element ka border jaisa highlight.</td></tr>
+  <tr><td>overflow</td><td>Content bahar nikle to kaise handle kare.</td></tr>
+  <tr><td>padding</td><td>Element ke andar ka gap.</td></tr>
+  <tr><td>perspective</td><td>3D elements ka depth effect.</td></tr>
+  <tr><td>position</td><td>Static, relative, absolute, fixed, sticky.</td></tr>
+  <tr><td>resize</td><td>Element resize karne ki permission.</td></tr>
+  <tr><td>right</td><td>Element ki right position.</td></tr>
+  <tr><td>scroll-behavior</td><td>Smooth scrolling ya instant.</td></tr>
+  <tr><td>text-align</td><td>Text alignment (left, right, center).</td></tr>
+  <tr><td>text-decoration</td><td>Underline, overline, etc.</td></tr>
+  <tr><td>text-overflow</td><td>Text overflow ka rule (ellipsis).</td></tr>
+  <tr><td>top</td><td>Element ki top position.</td></tr>
+  <tr><td>transform</td><td>Rotate, scale, skew.</td></tr>
+  <tr><td>transition</td><td>Smooth change ka shortcut.</td></tr>
+  <tr><td>user-select</td><td>Text selectable hai ya nahi.</td></tr>
+  <tr><td>vertical-align</td><td>Inline elements ka vertical alignment.</td></tr>
+  <tr><td>visibility</td><td>Element visible hai ya hidden.</td></tr>
+  <tr><td>white-space</td><td>Text wrapping ka rule.</td></tr>
+  <tr><td>width</td><td>Element ki width.</td></tr>
+  <tr><td>word-break</td><td>Words break karen ya wrap.</td></tr>
+  <tr><td>z-index</td><td>Stack order (front/back).</td></tr>
+</tbody>
+
+  </table>
+</div>
+
+<!-- JavaScript Table -->
+<div class="sheet" id="js" style="display:none;">
+  <table>
+    <thead>
+      <tr>
+        <th>Keyword / Function</th>
+        <th>Purpose (Easy Words)</th>
+      </tr>
+    </thead>
+<tbody>
+  <tr><td>let / const / var</td><td>Variable declare karne ke liye (let/const block ke andar, var function ke andar valid).</td></tr>
+  <tr><td>function / arrow function (=>)</td><td>Reusable code block; arrow function short syntax: const f = () => {}</td></tr>
+  <tr><td>return</td><td>Function se value bahar bhejne ke liye.</td></tr>
+  <tr><td>for / while / do...while</td><td>Loops: for fix number of times, while tab tak jab condition true, do...while pehle ek baar fir check.</td></tr>
+  <tr><td>if / else / else if / switch / case / default</td><td>Conditional statements aur multiple options ke liye switch.</td></tr>
+  <tr><td>break / continue</td><td>Loop ya switch se bahar nikalne ya skip karne ke liye.</td></tr>
+  <tr><td>array / [] / object / {}</td><td>Multiple values store karne ke liye array ya key-value pairs ke liye object.</td></tr>
+  <tr><td>.push() / .pop() / .shift() / .unshift()</td><td>Array me item add/remove karne ke liye.</td></tr>
+  <tr><td>.length</td><td>Array ya string me items ki ginti.</td></tr>
+  <tr><td>.indexOf()</td><td>Array me value ka index find karta hai ya -1 agar nahi mile.</td></tr>
+  <tr><td>string / .toUpperCase() / .toLowerCase() / .slice() / .replace() / .includes()</td><td>Text store aur manipulate karne ke liye.</td></tr>
+  <tr><td>document.getElementById() / querySelector() / querySelectorAll()</td><td>HTML elements select karne ke liye.</td></tr>
+  <tr><td>.innerHTML / .textContent / .style / .addEventListener()</td><td>Element ke content, style change aur events handle karne ke liye.</td></tr>
+  <tr><td>console.log()</td><td>Browser console me message print karne ke liye.</td></tr>
+  <tr><td>alert()</td><td>Popup message dikhata hai.</td></tr>
+  <tr><td>prompt()</td><td>User se input lene ke liye popup.</td></tr>
+  <tr><td>parseInt() / parseFloat()</td><td>Text ko number me convert karne ke liye.</td></tr>
+  <tr><td>Math.round() / Math.floor() / Math.ceil() / Math.random()</td><td>Number calculations aur random number generate karne ke liye.</td></tr>
+  <tr><td>+ / - / * / / / % / == / === / != / !== / > / < / >= / <= / && / || / !</td><td>Operators: math, comparison aur logical operations.</td></tr>
+  <tr><td>typeof / new / this / null / undefined / NaN</td><td>Type check, new object, current object, aur special values.</td></tr>
+</tbody>
+
+  </table>
+</div>
+
+<script>
+  // Tab functionality
+  const tabs = document.querySelectorAll('.tab');
+  const sheets = document.querySelectorAll('.sheet');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+
+      sheets.forEach(sheet => sheet.style.display = 'none');
+      document.getElementById(tab.dataset.target).style.display = 'block';
+    });
+  });
+</script>
+
+</body>
+</html>
